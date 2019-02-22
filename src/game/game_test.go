@@ -1,41 +1,47 @@
 package game
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
-var g Game
+type GameTestSuite struct {
+	suite.Suite
+	g Game
+}
+
+func (s *GameTestSuite) SetupTest() {
+	s.g = Game{}
+}
 
 // rollMany executes several times roll with giving frame value
 // each roll hits few pins with giving pins value.
-func rollMany(frame int, pins int) {
+func (s *GameTestSuite) rollMany(frame int, pins int) {
 	for i := 0; i < frame; i++ {
-		g.Roll(pins)
+		s.g.Roll(pins)
 	}
 }
 
-func TestMain(m *testing.M) {
-	g = Game{}
-	os.Exit(m.Run())
+func (s *GameTestSuite) TestRollAllZero() {
+	s.rollMany(20, 0)
+	assert.Equal(s.T(), 0, s.g.Score())
 }
 
-func TestRollAllZero(t *testing.T) {
-	rollMany(20, 0)
-	assert.Equal(t, 0, g.Score())
+func (s *GameTestSuite) TestRollAllOne() {
+	s.rollMany(20, 1)
+	assert.Equal(s.T(), 20, s.g.Score())
 }
 
-func TestRollAllOne(t *testing.T) {
-	rollMany(20, 1)
-	assert.Equal(t, 20, g.Score())
+func (s *GameTestSuite) TestRollSpare() {
+	s.g.Roll(2)
+	s.g.Roll(8)
+	s.g.Roll(3)
+	s.rollMany(17, 0)
+	assert.Equal(s.T(), 16, s.g.Score())
 }
 
-func TestRollSpare(t *testing.T) {
-	g.Roll(2)
-	g.Roll(8)
-	g.Roll(3)
-	rollMany(17, 0)
-	assert.Equal(t, 16, g.Score())
+func TestGameTestSuite(t *testing.T) {
+	suite.Run(t, new(GameTestSuite))
 }
