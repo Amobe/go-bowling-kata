@@ -60,6 +60,11 @@ func (s *GameTestSuite) TestRollStrike() {
 	assert.Equal(s.T(), 26, s.g.Score())
 }
 
+func (s *GameTestSuite) TestPerfectGame() {
+	s.rollMany(12, 10)
+	assert.Equal(s.T(), 300, s.g.Score())
+}
+
 func TestGameTestSuite(t *testing.T) {
 	suite.Run(t, new(GameTestSuite))
 }
