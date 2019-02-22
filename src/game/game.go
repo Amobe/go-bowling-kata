@@ -17,8 +17,8 @@ func (g *Game) Roll(pins int) {
 func (g *Game) Score() int {
 	frameIndex := 0
 	for frameIndex < g.frameCnt {
-		if g.rolls[frameIndex]+g.rolls[frameIndex+1] == 10 {
-			g.score += 10 + g.rolls[frameIndex+2]
+		if g.isSpare(frameIndex) {
+			g.score += 10 + g.getSpareBonus(frameIndex)
 			frameIndex += 2
 		} else {
 			g.score += g.rolls[frameIndex]
@@ -27,4 +27,14 @@ func (g *Game) Score() int {
 
 	}
 	return g.score
+}
+
+// isSpare returns true if player cleans 10 pins in 2 rounds.
+func (g *Game) isSpare(frameIndex int) bool {
+	return g.rolls[frameIndex]+g.rolls[frameIndex+1] == 10
+}
+
+// getSpareBonus returns the spare bonus value.
+func (g *Game) getSpareBonus(frameIndex int) int {
+	return g.rolls[frameIndex+2]
 }

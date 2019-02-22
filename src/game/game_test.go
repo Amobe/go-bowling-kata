@@ -24,6 +24,12 @@ func (s *GameTestSuite) rollMany(frame int, pins int) {
 	}
 }
 
+// roolSpare executes 2 rolls to finish a spare.
+func (s *GameTestSuite) rollSpare() {
+	s.g.Roll(2)
+	s.g.Roll(8)
+}
+
 func (s *GameTestSuite) TestRollAllZero() {
 	s.rollMany(20, 0)
 	assert.Equal(s.T(), 0, s.g.Score())
@@ -35,8 +41,7 @@ func (s *GameTestSuite) TestRollAllOne() {
 }
 
 func (s *GameTestSuite) TestRollSpare() {
-	s.g.Roll(2)
-	s.g.Roll(8)
+	s.rollSpare()
 	s.g.Roll(3)
 	s.rollMany(17, 0)
 	assert.Equal(s.T(), 16, s.g.Score())
