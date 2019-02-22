@@ -30,6 +30,11 @@ func (s *GameTestSuite) rollSpare() {
 	s.g.Roll(8)
 }
 
+// rollStrike executes 1 roll to finish a strike.
+func (s *GameTestSuite) rollStrike() {
+	s.g.Roll(10)
+}
+
 func (s *GameTestSuite) TestRollAllZero() {
 	s.rollMany(20, 0)
 	assert.Equal(s.T(), 0, s.g.Score())
@@ -48,7 +53,7 @@ func (s *GameTestSuite) TestRollSpare() {
 }
 
 func (s *GameTestSuite) TestRollStrike() {
-	s.g.Roll(10)
+	s.rollStrike()
 	s.g.Roll(3)
 	s.g.Roll(5)
 	s.rollMany(16, 0)
