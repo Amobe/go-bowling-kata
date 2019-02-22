@@ -47,6 +47,14 @@ func (s *GameTestSuite) TestRollSpare() {
 	assert.Equal(s.T(), 16, s.g.Score())
 }
 
+func (s *GameTestSuite) TestRollStrike() {
+	s.g.Roll(10)
+	s.g.Roll(3)
+	s.g.Roll(5)
+	s.rollMany(16, 0)
+	assert.Equal(s.T(), 26, s.g.Score())
+}
+
 func TestGameTestSuite(t *testing.T) {
 	suite.Run(t, new(GameTestSuite))
 }
