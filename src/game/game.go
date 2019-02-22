@@ -17,7 +17,10 @@ func (g *Game) Roll(pins int) {
 func (g *Game) Score() int {
 	frameIndex := 0
 	for frameIndex < g.frameCnt {
-		if g.isSpare(frameIndex) {
+		if g.rolls[frameIndex] == 10 {
+			g.score += 10 + g.rolls[frameIndex+1] + g.rolls[frameIndex+2]
+			frameIndex++
+		} else if g.isSpare(frameIndex) {
 			g.score += 10 + g.getSpareBonus(frameIndex)
 			frameIndex += 2
 		} else {
