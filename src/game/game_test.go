@@ -31,3 +31,11 @@ func TestRollAllOne(t *testing.T) {
 	rollMany(20, 1)
 	assert.Equal(t, 20, g.Score())
 }
+
+func TestRollSpare(t *testing.T) {
+	g.Roll(2)
+	g.Roll(8)
+	g.Roll(3)
+	rollMany(17, 0)
+	assert.Equal(t, 16, g.Score())
+}
